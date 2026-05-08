@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Saud Alotaibi – Corpus Linguistics</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0c0c0f;
+      --surface: #13131a;
+      --card: #1a1a26;
+      --border: #2a2a3d;
+      --accent: #c8a96e;
+      --accent2: #7c6fcd;
+      --text: #e8e6f0;
+      --muted: #7a7890;
+      --mono: 'DM Mono', monospace;
+      --serif: 'Playfair Display', serif;
+      --sans: 'DM Sans', sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 3rem;
+      background: rgba(12,12,15,0.85);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: color 0.25s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 6rem 3rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -200px; right: -200px;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(124,111,205,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -100px; left: -100px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(200,169,110,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-tag {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--accent);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.2s forwards;
+    }
+
+    .hero h1 {
+      font-family: var(--serif);
+      font-size: clamp(3rem, 7vw, 6.5rem);
+      font-weight: 900;
+      line-height: 1.05;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.4s forwards;
+    }
+
+    .hero h1 span { color: var(--accent); }
+
+    .hero-sub {
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.6s forwards;
+    }
+
+    .hero-dots {
+      position: absolute;
+      right: 4rem;
+      top: 50%;
+      transform: translateY(-50%);
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 10px;
+      opacity: 0.18;
+      animation: fadeIn 1.2s 1s forwards;
+    }
+
+    .hero-dots span {
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: block;
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      padding: 6rem 3rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 0.8rem;
+    }
+
+    .section-title {
+      font-family: var(--serif);
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 700;
+      margin-bottom: 2.5rem;
+      line-height: 1.2;
+    }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .about-text p {
+      color: var(--muted);
+      margin-bottom: 1.2rem;
+      font-size: 1rem;
+    }
+
+    .about-text p strong { color: var(--text); }
+
+    .about-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-card::before {
+      content: '"';
+      font-family: var(--serif);
+      font-size: 8rem;
+      color: var(--accent);
+      opacity: 0.08;
+      position: absolute;
+      top: -1rem; left: 1rem;
+      line-height: 1;
+    }
+
+    .about-card blockquote {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      font-style: italic;
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    .about-card cite {
+      display: block;
+      margin-top: 1rem;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      font-style: normal;
+    }
+
+    /* ── SYLLABUS ── */
+    #syllabus { background: var(--surface); max-width: 100%; padding: 6rem 0; }
+    #syllabus .inner { max-width: 1100px; margin: 0 auto; padding: 0 3rem; }
+
+    .week-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.2rem;
+    }
+
+    .week-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.5rem;
+      display: flex;
+      gap: 1.2rem;
+      align-items: flex-start;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+
+    .week-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+    }
+
+    .week-num {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      background: rgba(200,169,110,0.1);
+      border: 1px solid rgba(200,169,110,0.2);
+      border-radius: 6px;
+      padding: 0.3rem 0.6rem;
+      white-space: nowrap;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .week-info h3 {
+      font-family: var(--sans);
+      font-weight: 500;
+      font-size: 0.95rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .week-info p {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    /* ── LESSONS ── */
+    .lessons-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .lesson {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent2);
+      border-radius: 0 10px 10px 0;
+      padding: 1.8rem 2rem;
+      transition: border-left-color 0.25s;
+    }
+
+    .lesson:hover { border-left-color: var(--accent); }
+
+    .lesson-num {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--accent2);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .lesson h3 {
+      font-family: var(--serif);
+      font-size: 1.25rem;
+      margin-bottom: 0.7rem;
+    }
+
+    .lesson p {
+      color: var(--muted);
+      font-size: 0.93rem;
+    }
+
+    /* ── QUIZ ── */
+    #quiz { background: var(--surface); max-width: 100%; padding: 6rem 0; }
+    #quiz .inner { max-width: 700px; margin: 0 auto; padding: 0 3rem; }
+
+    .quiz-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 2.5rem;
+    }
+
+    .quiz-name-row {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      align-items: center;
+    }
+
+    .quiz-name-row input {
+      flex: 1;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .quiz-name-row input:focus { border-color: var(--accent); }
+
+    .btn {
+      background: var(--accent);
+      color: #0c0c0f;
+      border: none;
+      border-radius: 8px;
+      padding: 0.75rem 1.5rem;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+      white-space: nowrap;
+    }
+
+    .btn:hover { opacity: 0.85; transform: translateY(-1px); }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+    #quiz-area { display: none; }
+
+    .progress-bar {
+      height: 3px;
+      background: var(--border);
+      border-radius: 2px;
+      margin-bottom: 2rem;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent2), var(--accent));
+      border-radius: 2px;
+      transition: width 0.4s ease;
+    }
+
+    .q-counter {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      margin-bottom: 1rem;
+    }
+
+    .q-text {
+      font-family: var(--serif);
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+
+    .q-type-badge {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      background: rgba(124,111,205,0.1);
+      border: 1px solid rgba(124,111,205,0.25);
+      border-radius: 4px;
+      padding: 0.2rem 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .option-btn {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.85rem 1.2rem;
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      text-align: left;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .option-btn:hover:not(:disabled) {
+      border-color: var(--accent);
+      background: rgba(200,169,110,0.06);
+    }
+
+    .option-btn.correct { border-color: #5cb85c; background: rgba(92,184,92,0.1); color: #5cb85c; }
+    .option-btn.wrong   { border-color: #d9534f; background: rgba(217,83,79,0.1);  color: #d9534f; }
+
+    .tf-row, .fill-row {
+      display: flex;
+      gap: 0.8rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .fill-input {
+      flex: 1;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .fill-input:focus { border-color: var(--accent); }
+
+    .feedback {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.05em;
+      margin-bottom: 1rem;
+      padding: 0.6rem 0.9rem;
+      border-radius: 6px;
+      display: none;
+    }
+
+    .feedback.correct { background: rgba(92,184,92,0.1); color: #5cb85c; border: 1px solid rgba(92,184,92,0.3); }
+    .feedback.wrong   { background: rgba(217,83,79,0.1);  color: #d9534f;  border: 1px solid rgba(217,83,79,0.3);  }
+
+    .score-box {
+      text-align: center;
+      padding: 2rem 0;
+      display: none;
+    }
+
+    .score-num {
+      font-family: var(--serif);
+      font-size: 4rem;
+      font-weight: 900;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .score-label {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-top: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .score-msg {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      font-style: italic;
+      color: var(--text);
+      margin-bottom: 2rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 2rem;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 0.18; }
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { gap: 1.2rem; }
+      .hero { padding: 6rem 1.5rem 3rem; }
+      .hero-dots { display: none; }
+      section { padding: 4rem 1.5rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+      #syllabus .inner, #quiz .inner { padding: 0 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Saud · Corpus Linguistics</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#syllabus">Syllabus</a></li>
+    <li><a href="#lessons">Lessons</a></li>
+    <li><a href="#quiz">Quiz</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">Course Project · Linguistics</div>
+  <h1>Corpus<br/><span>Linguistics</span></h1>
+  <p class="hero-sub">Language · Data · Patterns · Meaning</p>
+  <div class="hero-dots" id="dots"></div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">01 — About</div>
+  <div class="about-grid">
+    <div class="about-text">
+      <div class="section-title">About Me</div>
+      <p>Hi, I'm <strong>Saud Alotaibi</strong>. This website is for my <strong>Corpus Linguistics</strong> course project. It explores how large collections of real language data can reveal patterns, structure, and meaning in human communication.</p>
+      <p>Through this course, we examine authentic texts using computational tools and linguistic theory to uncover how language actually works in the real world — not just how we think it should work.</p>
+    </div>
+    <div class="about-card">
+      <blockquote>
+        "A corpus gives us access to language as it is actually used — not as grammarians imagine it to be."
+      </blockquote>
+      <cite>— Douglas Biber, Corpus Linguistics</cite>
+    </div>
+  </div>
+
+  <div style="margin-top:3rem;">
+    <div class="section-label" style="margin-bottom:0.8rem;">What is this course?</div>
+    <p style="color:var(--muted); max-width:700px; font-size:1rem;">
+      This course introduces the field of corpus linguistics — the study of language through large, structured collections of real texts known as <strong style="color:var(--text)">corpora</strong>. Students learn to use specialist tools to analyse frequency, collocation, concordance, and register variation across different text types and genres.
+    </p>
+  </div>
+</section>
+
+<!-- SYLLABUS -->
+<div id="syllabus">
+  <div class="inner">
+    <div class="section-label">02 — Syllabus</div>
+    <div class="section-title">Course Plan</div>
+    <div class="week-grid">
+      <div class="week-card">
+        <span class="week-num">Week 01</span>
+        <div class="week-info">
+          <h3>Introduction to Corpus Linguistics</h3>
+          <p>Discussion &amp; overview</p>
+        </div>
+      </div>
+      <div class="week-card">
+        <span class="week-num">Week 02</span>
+        <div class="week-info">
+          <h3>Types of Corpora</h3>
+          <p>General, specialised, learner corpora</p>
+        </div>
+      </div>
+      <div class="week-card">
+        <span class="week-num">Week 03</span>
+        <div class="week-info">
+          <h3>Frequency &amp; Concordance</h3>
+          <p>AntConc practice</p>
+        </div>
+      </div>
+      <div class="week-card">
+        <span class="week-num">Week 04</span>
+        <div class="week-info">
+          <h3>Collocation &amp; Colligation</h3>
+          <p>Word patterns analysis</p>
+        </div>
+      </div>
+      <div class="week-card">
+        <span class="week-num">Week 05</span>
+        <div class="week-info">
+          <h3>Keyness &amp; Keywords</h3>
+          <p>Comparing text varieties</p>
+        </div>
+      </div>
+      <div class="week-card">
+        <span class="week-num">Week 06</span>
+        <div class="week-info">
+          <h3>Register &amp; Genre</h3>
+          <p>Multi-dimensional analysis</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LESSONS -->
+<section id="lessons">
+  <div class="section-label">03 — Lessons</div>
+  <div class="section-title">Core Lessons</div>
+  <div class="lessons-list">
+    <div class="lesson">
+      <div class="lesson-num">Lesson 01</div>
+      <h3>What is a Corpus?</h3>
+      <p>A corpus is a large, structured collection of authentic texts compiled for linguistic analysis. It can be written, spoken, or multimodal, and is designed to represent a particular variety or domain of language use.</p>
+    </div>
+    <div class="lesson">
+      <div class="lesson-num">Lesson 02</div>
+      <h3>Concordance Lines</h3>
+      <p>A concordance displays every occurrence of a search word in its surrounding context (KWIC: Key Word In Context). Concordance lines allow researchers to observe patterns of use that would be impossible to detect by reading alone.</p>
+    </div>
+    <div class="lesson">
+      <div class="lesson-num">Lesson 03</div>
+      <h3>Collocation</h3>
+      <p>Collocation refers to the tendency of certain words to regularly co-occur. For example, <em>heavy</em> collocates strongly with <em>rain</em> and <em>traffic</em>. Corpus tools measure collocation using statistical measures like MI (Mutual Information) and T-score.</p>
+    </div>
+    <div class="lesson">
+      <div class="lesson-num">Lesson 04</div>
+      <h3>Frequency Lists &amp; Keyness</h3>
+      <p>Frequency lists rank words by how often they appear in a corpus. Keyness analysis compares two corpora to identify which words are statistically more frequent — or "key" — in one text versus a reference corpus.</p>
+    </div>
+    <div class="lesson">
+      <div class="lesson-num">Lesson 05</div>
+      <h3>Register Variation</h3>
+      <p>Different situations of language use — academic writing, conversation, news — show systematic linguistic differences. Corpus linguistics allows us to quantify these differences across vocabulary, grammar, and discourse features.</p>
+    </div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<div id="quiz">
+  <div class="inner">
+    <div class="section-label">04 — Quiz</div>
+    <div class="section-title">Test Your Knowledge</div>
+    <div class="quiz-box">
+
+      <!-- Name entry -->
+      <div id="name-entry">
+        <p style="font-size:0.9rem; color:var(--muted); margin-bottom:1.2rem;">Enter your name to begin the Corpus Linguistics quiz.</p>
+        <div class="quiz-name-row">
+          <input type="text" id="student-name" placeholder="Your name..." />
+          <button class="btn" onclick="startQuiz()">Start Quiz</button>
+        </div>
+      </div>
+
+      <!-- Quiz area -->
+      <div id="quiz-area">
+        <div class="progress-bar">
+          <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+        </div>
+        <div class="q-counter" id="q-counter">Question 1 of 5</div>
+        <div class="q-type-badge" id="q-type-badge">Multiple Choice</div>
+        <div class="q-text" id="q-text"></div>
+        <div id="q-input-area"></div>
+        <div class="feedback" id="feedback"></div>
+        <button class="btn" id="next-btn" onclick="nextQuestion()" style="display:none;">Next →</button>
+      </div>
+
+      <!-- Score -->
+      <div class="score-box" id="score-box">
+        <div class="score-num" id="score-num">0/5</div>
+        <div class="score-label" id="score-name-display">Well done!</div>
+        <div class="score-msg" id="score-msg"></div>
+        <button class="btn" onclick="restartQuiz()">Try Again</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  © 2025 Saud Alotaibi &nbsp;·&nbsp; Corpus Linguistics &nbsp;·&nbsp; Built for academic coursework
+</footer>
+
+<script>
+  // Dot grid
+  const dotsEl = document.getElementById('dots');
+  for (let i = 0; i < 60; i++) {
+    const s = document.createElement('span');
+    dotsEl.appendChild(s);
+  }
+
+  // ── QUIZ DATA ──
+  const questions = [
+    {
+      type: 'Multiple Choice',
+      text: 'What is a corpus in linguistics?',
+      options: [
+        'A grammar rule book',
+        'A large, structured collection of authentic texts',
+        'A single literary novel',
+        'A type of dictionary'
+      ],
+      answer: 1
+    },
+    {
+      type: 'True / False',
+      text: 'Concordance lines display a search word in its surrounding context (KWIC).',
+      options: ['True', 'False'],
+      answer: 0
+    },
+    {
+      type: 'Multiple Choice',
+      text: 'Which of the following is a commonly used corpus analysis tool?',
+      options: ['Photoshop', 'AntConc', 'Microsoft Excel', 'AutoCAD'],
+      answer: 1
+    },
+    {
+      type: 'Fill in the Blank',
+      text: 'Collocation refers to the tendency of certain words to regularly ________ with each other.',
+      answer: ['co-occur', 'occur', 'appear together', 'cooccur']
+    },
+    {
+      type: 'Multiple Choice',
+      text: 'What does "keyness" measure in corpus linguistics?',
+      options: [
+        'The length of a word',
+        'The spelling difficulty of a word',
+        'How statistically frequent a word is in one corpus compared to a reference corpus',
+        'The number of syllables in a word'
+      ],
+      answer: 2
+    }
+  ];
+
+  let current = 0;
+  let score = 0;
+  let answered = false;
+  let studentName = '';
+
+  function startQuiz() {
+    studentName = document.getElementById('student-name').value.trim();
+    if (!studentName) {
+      document.getElementById('student-name').focus();
+      return;
+    }
+    document.getElementById('name-entry').style.display = 'none';
+    document.getElementById('quiz-area').style.display = 'block';
+    current = 0; score = 0;
+    renderQuestion();
+  }
+
+  function renderQuestion() {
+    answered = false;
+    const q = questions[current];
+    document.getElementById('q-counter').textContent = `Question ${current + 1} of ${questions.length}`;
+    document.getElementById('q-type-badge').textContent = q.type;
+    document.getElementById('q-text').textContent = q.text;
+    document.getElementById('progress-fill').style.width = `${(current / questions.length) * 100}%`;
+    document.getElementById('feedback').style.display = 'none';
+    document.getElementById('next-btn').style.display = 'none';
+
+    const area = document.getElementById('q-input-area');
+    area.innerHTML = '';
+
+    if (q.type === 'Fill in the Blank') {
+      const row = document.createElement('div');
+      row.className = 'fill-row';
+      const inp = document.createElement('input');
+      inp.type = 'text';
+      inp.className = 'fill-input';
+      inp.placeholder = 'Type your answer...';
+      inp.id = 'fill-answer';
+      inp.addEventListener('keydown', e => { if (e.key === 'Enter') submitFill(); });
+      const btn = document.createElement('button');
+      btn.className = 'btn';
+      btn.textContent = 'Submit';
+      btn.onclick = submitFill;
+      row.appendChild(inp);
+      row.appendChild(btn);
+      area.appendChild(row);
+      setTimeout(() => inp.focus(), 50);
+    } else {
+      const list = document.createElement('div');
+      list.className = 'options-list';
+      q.options.forEach((opt, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.textContent = opt;
+        btn.onclick = () => selectOption(i, btn, list);
+        list.appendChild(btn);
+      });
+      area.appendChild(list);
+    }
+  }
+
+  function selectOption(index, btn, list) {
+    if (answered) return;
+    answered = true;
+    const q = questions[current];
+    const isCorrect = index === q.answer;
+    if (isCorrect) score++;
+    btn.classList.add(isCorrect ? 'correct' : 'wrong');
+    if (!isCorrect) list.children[q.answer].classList.add('correct');
+    Array.from(list.children).forEach(b => b.disabled = true);
+    showFeedback(isCorrect, q.options[q.answer]);
+  }
+
+  function submitFill() {
+    if (answered) return;
+    answered = true;
+    const inp = document.getElementById('fill-answer');
+    const val = inp.value.trim().toLowerCase();
+    const q = questions[current];
+    const isCorrect = q.answer.some(a => val === a.toLowerCase());
+    if (isCorrect) score++;
+    inp.disabled = true;
+    inp.style.borderColor = isCorrect ? '#5cb85c' : '#d9534f';
+    showFeedback(isCorrect, Array.isArray(q.answer) ? q.answer[0] : q.answer);
+  }
+
+  function showFeedback(correct, correctAnswer) {
+    const fb = document.getElementById('feedback');
+    fb.className = 'feedback ' + (correct ? 'correct' : 'wrong');
+    fb.textContent = correct
+      ? '✓ Correct!'
+      : `✗ Incorrect — the answer is: "${correctAnswer}"`;
+    fb.style.display = 'block';
+    document.getElementById('next-btn').style.display = 'inline-block';
+  }
+
+  function nextQuestion() {
+    current++;
+    if (current >= questions.length) {
+      showScore();
+    } else {
+      renderQuestion();
+    }
+  }
+
+  function showScore() {
+    document.getElementById('quiz-area').style.display = 'none';
+    const box = document.getElementById('score-box');
+    box.style.display = 'block';
+    document.getElementById('score-num').textContent = `${score}/${questions.length}`;
+    document.getElementById('score-name-display').textContent = `${studentName}'s Result`;
+    const pct = score / questions.length;
+    let msg = '';
+    if (pct === 1)       msg = 'Perfect score — outstanding work!';
+    else if (pct >= 0.8) msg = 'Excellent understanding of corpus linguistics.';
+    else if (pct >= 0.6) msg = 'Good effort — review the lessons and try again.';
+    else                 msg = 'Keep studying the material — you\'ll get there.';
+    document.getElementById('score-msg').textContent = msg;
+  }
+
+  function restartQuiz() {
+    document.getElementById('score-box').style.display = 'none';
+    document.getElementById('name-entry').style.display = 'block';
+    document.getElementById('student-name').value = '';
+  }
+</script>
+</body>
+</html>
